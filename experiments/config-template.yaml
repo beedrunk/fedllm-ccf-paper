@@ -1,0 +1,58 @@
+experiment_id: ""
+seed: 42
+
+model:
+  name_or_path: ""
+  tokenizer: ""
+  frozen_backbone: true
+  peft:
+    type: "lora"
+    rank: null
+    alpha: null
+    dropout: null
+    target_modules: []
+
+federated:
+  num_clients: null
+  rounds: null
+  clients_per_round: null
+  aggregation: ""
+  personalization: ""
+  client_sampling: ""
+
+data:
+  dataset_name: ""
+  source_url: ""
+  license: ""
+  split: ""
+  preprocessing_script: ""
+  non_iid:
+    type: ""
+    parameters: {}
+
+training:
+  local_epochs: null
+  batch_size: null
+  learning_rate: null
+  max_steps: null
+  optimizer: ""
+  scheduler: ""
+
+privacy:
+  enabled: false
+  mechanism: ""
+  clipping_norm: null
+  noise_multiplier: null
+  epsilon: null
+  delta: null
+
+evaluation:
+  metrics: []
+  eval_frequency: null
+  test_split: ""
+
+outputs:
+  log_dir: ""
+  result_file: ""
+  checkpoint_dir: ""
+
