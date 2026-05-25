@@ -97,3 +97,21 @@ git config --local https.proxy http://127.0.0.1:7897
 ```
 
 该设置只影响 `D:\paper` 仓库，不修改全局 Git 配置。
+
+同步处理：
+
+- 已 fetch API 上传产生的远程 `main`。
+- 已将 API 上传历史备份到远程分支 `api-upload-backup`。
+- 已使用 `git push --force-with-lease` 将本地规范 commit 历史推送到远程 `main`。
+- 当前远程 `main` 已可通过正常 `git push` 更新。
+
+后续要求：
+
+- 继续保留本仓库局部代理配置，除非网络环境改变。
+- 之后不再使用 GitHub Contents API 同步常规项目文件。
+- 如需检查代理配置，运行：
+
+```powershell
+git config --local --get http.proxy
+git config --local --get https.proxy
+```
