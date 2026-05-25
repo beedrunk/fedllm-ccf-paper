@@ -61,6 +61,10 @@ powershell -ExecutionPolicy Bypass -File scripts/check-project.ps1
 - `manuscript/outline.md`
 - `manuscript/draft.md`
 
+如果涉及 GitHub 同步，还必须阅读：
+
+- `docs/github-sync.md`
+
 ## 文件职责
 
 - `PROJECT_STATE.md`：当前项目状态和下一步。
@@ -170,4 +174,3 @@ experiments/run-log.md
 - 正在做什么。
 - 下一步命令或文件。
 - 当前风险。
-
