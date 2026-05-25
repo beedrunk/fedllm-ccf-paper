@@ -34,6 +34,8 @@ D:\paper
 - 联邦环境：接受模拟客户端。
 - 开源：最终需要可开源；初期 GitHub 仓库设为 private。
 - GitHub 推送要求：每次 push 后必须给出改动简述。
+- 导师反馈 v1 已采纳：主线为资源异构个性化，方法叙事为共享/私有结构 + 资源分配 + 稳健聚合 + 统一评测。
+- 期刊候选排序：Computer Networks、Journal of Network and Computer Applications、Neurocomputing。
 
 ## 已完成文件
 
@@ -47,6 +49,8 @@ D:\paper
 - `docs/environment-check.md`
 - `proposal/research-plan.md`
 - `proposal/opening-report.md`
+- `review/advisor-feedback-v1.md`
+- `docs/theory-and-method-plan.md`
 - `journal/ccf-targets.md`
 - 文献、实验、结果、论文草稿相关模板。
 
@@ -60,7 +64,7 @@ D:\paper
 
 ## 下一步建议
 
-1. 精读开题报告中列出的核心近两年 FedLoRA/FedLLM 文献，补充阅读笔记。
+1. 精读 FLoRA、FlexLoRA、AFLoRA、FedHL、FedEx-LoRA、EcoLoRA，补充阅读笔记。
 2. 核验 PyTorch CUDA 环境。
 3. 跑通单客户端 LoRA baseline。
 4. 根据文本分类 + NLI 主线确定第一批公开数据集候选。

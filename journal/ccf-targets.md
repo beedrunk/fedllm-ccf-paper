@@ -14,15 +14,24 @@
 
 | 期刊 | CCF 类别 | 方向匹配 | 投稿要求链接 | 核验日期 | 备注 |
 | --- | --- | --- | --- | --- | --- |
+| Computer Networks | 待投稿前从 CCF 官方目录复核；导师建议按更高优先级考虑 | 网络、资源管理、学习系统、通信效率；需要把论文写成网络化学习系统而非纯 NLP | https://www.sciencedirect.com/journal/computer-networks | 2026-05-25 | 优先目标；需强调 resource allocation、networked learning、communication cost、reproducible system evaluation |
+| Journal of Network and Computer Applications | 待投稿前从 CCF 官方目录复核；导师建议候选 | 网络应用、教育类 networked applications、资源自适应应用 | https://www.sciencedirect.com/journal/journal-of-network-and-computer-applications | 2026-05-25 | 第二目标；教育文本补充实验更契合，但方法深度仍需足够 |
+| Neurocomputing | 待投稿前从 CCF 官方目录复核 | 神经网络与学习系统理论、实践和应用 | https://www.sciencedirect.com/journal/neurocomputing | 2026-05-25 | 方法深度对照和备选；若理论和算法表达更强，可考虑 |
 
 ## 当前策略
 
 用户目标是 CCF C 类英文期刊，周期 3 个月。候选期刊不在本文件中凭记忆填写，必须在投稿准备阶段从 CCF 官方推荐目录和期刊官网重新核验。
 
-初步倾向：
-- 优先选择机器学习、人工智能应用、自然语言处理或计算机教育技术交叉方向中接收算法和实验论文的英文期刊。
-- 若主方法更偏资源异构和联邦系统，考虑系统或网络方向 C 类期刊是否更匹配。
-- 若教育数据只作为补充实验，不把期刊范围限定为教育技术。
+当前排序：
+
+1. Computer Networks：冲更好的网络方向期刊。写作上必须突出通信开销、资源分配、网络化协同学习和可复现实验。
+2. Journal of Network and Computer Applications：稳妥候选。教育文本补充实验可以增强 networked educational application 叙事。
+3. Neurocomputing：方法深度对照和备选。若后续理论分析、学习算法和消融更强，可考虑。
+
+当前判断：
+- 论文不能只写成 FedLoRA 系统评测，否则不适合前两个网络期刊。
+- 必须形成方法学：共享/私有个性化结构 + 资源分配策略 + 稳健聚合 + 统一评测。
+- 期刊选择以最终实验强度、理论补强和导师意见为准。
 
 ## 选择标准
 

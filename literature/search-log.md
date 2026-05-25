@@ -59,3 +59,28 @@
 - 当前只是开题阶段的第一轮核验；部分文献尚未精读全文，不能在论文正文中写成强结论。
 - 用户提供的 YOLO-Adapter 论文已核验为 Neurocomputing 2026 文章，可作为“导师写作套路和 PEFT 动机表达”的参考，不作为本文技术基线。
 
+### 2026-05-25：导师反馈后补充检索
+
+检索人：Codex
+
+数据库/来源：
+- arXiv
+- ACL Anthology
+- ScienceDirect
+- CCF 官方推荐目录入口
+
+检索式：
+- `FedHL federated learning heterogeneous LoRA`
+- `FedEx-LoRA Exact Aggregation federated LoRA`
+- `EcoLoRA communication efficient federated fine tuning LLM`
+- `Computer Networks journal aims and scope`
+- `Journal of Network and Computer Applications aims and scope`
+- `Neurocomputing journal aims and scope`
+
+筛选标准：
+- 与聚合偏差、异构 LoRA、通信高效联邦微调或期刊定位直接相关。
+- 只记录能打开到 arXiv、ACL Anthology、ScienceDirect 或 CCF 官方目录入口的来源。
+
+备注：
+- 用户提到 `ECLoRA`，当前检索到最接近的是 `EcoLoRA`。在未进一步确认前，不把 `ECLoRA` 和 `EcoLoRA` 写成同一工作。
+- Computer Networks、JNCA、Neurocomputing 的最终 CCF 类别必须投稿前复核。

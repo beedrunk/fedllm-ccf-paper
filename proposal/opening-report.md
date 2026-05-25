@@ -1,10 +1,23 @@
 # 开题报告草案：资源异构场景下的个性化联邦 LoRA 微调方法研究
 
-> 版本：v0.1  
+> 版本：v0.2  
 > 日期：2026-05-25  
 > 状态：导师讨论稿，不作为最终论文正文  
 > 项目目录：`D:\paper`  
 > 说明：本文档可直接用 Yank Note 打开和继续修改。当前引用已做第一轮页面核验，但多数文献尚未精读全文，后续进入论文正文前必须补充阅读笔记。
+
+## 修订说明
+
+根据导师反馈，本文将主线进一步收敛为“资源异构个性化联邦 LoRA”。隐私、多模态和客户端聚类暂不作为主贡献，只作为后续扩展或讨论。方法叙事调整为：
+
+```text
+共享/私有个性化结构
+  + 资源分配策略
+  + 稳健聚合
+  + 统一评测
+```
+
+同时，本文补充轻量理论分析：聚合偏差形式化、资源分配目标和稳健聚合权重。该部分不追求过强收敛证明，但需要让论文不只停留在系统评测。
 
 ---
 
@@ -46,9 +59,9 @@
 
 联邦学习通过多个客户端在本地训练、服务器聚合更新的方式实现协同建模。FedAvg 是经典基础方法，通过本地多步更新和服务器端加权平均减少通信轮数[^fedavg]。但在大语言模型场景中，全参数联邦微调几乎不可行，因此近年来的研究开始将 PEFT 与联邦学习结合。
 
-FLoRA 关注联邦 LoRA 微调中的异构低秩适配器聚合问题，指出朴素 LoRA 聚合存在数学不准确性和聚合噪声风险，并提出支持异构 LoRA 的聚合方法[^flora]。FlexLoRA 进一步针对异构任务和异构客户端资源，提出动态调整本地 LoRA rank，并通过 SVD 进行权重重分配[^flexlora]。FSLoRA 利用 sketching 机制，使设备可以选择性更新全局 LoRA 模块的子矩阵，以适应设备端协同微调[^fslora]。AFLoRA 则从资源感知角度探索自适应联邦低秩微调[^aflora]。
+FLoRA 关注联邦 LoRA 微调中的异构低秩适配器聚合问题，指出朴素 LoRA 聚合存在数学不准确性和聚合噪声风险，并提出支持异构 LoRA 的聚合方法[^flora]。FlexLoRA 进一步针对异构任务和异构客户端资源，提出动态调整本地 LoRA rank，并通过 SVD 进行权重重分配[^flexlora]。FSLoRA 利用 sketching 机制，使设备可以选择性更新全局 LoRA 模块的子矩阵，以适应设备端协同微调[^fslora]。AFLoRA 则从资源感知角度探索自适应联邦低秩微调[^aflora]。此外，FedHL 从异构 LoRA 的截断偏差和梯度偏差角度进行理论分析，并提出无偏聚合思路[^fedhl]；FedEx-LoRA 关注联邦 LoRA 的精确聚合问题，强调传统 LoRA adapter 聚合可能造成不精确更新[^fedexlora]；EcoLoRA 则从通信高效角度提出 LoRA segment sharing 和自适应稀疏化策略[^ecolora]。
 
-现有研究已经证明，资源异构和 LoRA rank 异构是 FedLLM 中的重要问题。但这些工作也提示了新的研究空间：如果只维护一个全局 LoRA，即使 rank 可以动态变化，也可能难以适配强 Non-IID 客户端；如果完全个性化，又会削弱跨客户端共享收益。因此，有必要进一步探索共享 LoRA 与私有 LoRA 的解耦结构，并结合资源预算进行 rank 分配。
+现有研究已经证明，资源异构和 LoRA rank 异构是 FedLLM 中的重要问题。但这些工作也提示了新的研究空间：如果只维护一个全局 LoRA，即使 rank 可以动态变化，也可能难以适配强 Non-IID 客户端；如果完全个性化，又会削弱跨客户端共享收益。因此，有必要进一步探索共享 LoRA 与私有 LoRA 的解耦结构，并结合资源预算、稳健聚合和统一评测，形成更完整的学习系统方法。
 
 ### 3.3 数据有限与教育文本场景
 
@@ -71,7 +84,10 @@ FLoRA 关注联邦 LoRA 微调中的异构低秩适配器聚合问题，指出�
 3. **异构 rank 聚合与个性化需求尚未充分结合。**  
    FLoRA、FlexLoRA 等工作已经关注异构 LoRA 聚合，但仍有空间进一步研究：如何将共享知识和私有知识显式拆分，并让 rank 分配同时服务于资源效率和个性化性能。
 
-4. **性能、个性化和通信成本的联合评估仍需加强。**  
+4. **聚合偏差和资源分配目标需要更清晰的形式化描述。**  
+   如果论文只给出工程模块而缺少偏差定义、资源预算约束和聚合权重设计，很容易被认为只是系统评测。本文计划借鉴 FedHL、FedEx-LoRA 和 EcoLoRA 的分析范式，补充轻量理论分析。
+
+5. **性能、个性化和通信成本的联合评估仍需加强。**  
    只报告平均准确率不足以说明方法适合联邦场景。本文计划同时报告平均性能、客户端尾部性能、个性化收益和通信成本。
 
 ---
@@ -169,7 +185,7 @@ $$
 
 ### 6.4 聚合策略
 
-每轮训练中，服务器下发共享 LoRA。客户端在本地训练共享 LoRA 与私有 LoRA，但仅上传共享 LoRA 更新。服务器按样本量或统一权重聚合：
+每轮训练中，服务器下发共享 LoRA。客户端在本地训练共享 LoRA 与私有 LoRA，但仅上传共享 LoRA 更新。基础版本按样本量或统一权重聚合：
 
 $$
 \Delta \theta_g^{t+1}
@@ -182,6 +198,72 @@ $$
 其中，$\mathcal{S}_t$ 表示第 $t$ 轮参与训练的客户端集合，$n_k$ 表示客户端样本数量。
 
 如果不同客户端共享 LoRA rank 不一致，初期版本将采用固定共享 rank + 异构私有 rank 的保守实现；若实验进展顺利，再扩展到异构共享 rank 的对齐聚合。
+
+### 6.5 稳健聚合
+
+为了降低 Non-IID 和异常客户端更新对共享 LoRA 的干扰，本文拟引入轻量稳健聚合权重：
+
+$$
+\omega_k \propto p_k \cdot q_k \cdot s_k
+$$
+
+其中，$p_k$ 表示样本量或均匀权重，$q_k$ 表示资源可靠性或参与稳定性，$s_k$ 表示更新相似度或训练收益。共享 LoRA 聚合为：
+
+$$
+\Delta \theta_g^{t+1}
+=
+\sum_{k \in \mathcal{S}_t}
+\frac{\omega_k}{\sum_{j \in \mathcal{S}_t}\omega_j}
+\Delta \theta_{g,k}^{t+1}
+$$
+
+最小可行版本先实现更新范数裁剪和基于 cosine similarity 的异常更新降权，不引入复杂聚类。
+
+### 6.6 轻量理论分析
+
+为增强方法说服力，本文拟补充聚合偏差和资源分配目标的形式化描述。设客户端 LoRA 更新为：
+
+$$
+\Delta W_k = B_k A_k
+$$
+
+朴素分别平均 LoRA 矩阵得到：
+
+$$
+\Delta W_{\mathrm{naive}}
+=
+\left(\sum_k p_k B_k\right)
+\left(\sum_k p_k A_k\right)
+$$
+
+理想加权更新为：
+
+$$
+\Delta W_{\mathrm{ideal}}
+=
+\sum_k p_k B_k A_k
+$$
+
+聚合偏差可定义为：
+
+$$
+\mathcal{E}_{agg}
+=
+\left\|
+\sum_k p_k B_k A_k
+-
+\left(\sum_k p_k B_k\right)
+\left(\sum_k p_k A_k\right)
+\right\|_F
+$$
+
+资源预算约束可写为：
+
+$$
+C_k(r_k) \leq b_k
+$$
+
+其中 $C_k(r_k)$ 表示客户端 $k$ 在 rank 为 $r_k$ 时的通信或训练成本，$b_k$ 是资源预算。本文不承诺强收敛证明，但会通过该形式化目标解释方法设计，并通过消融实验验证各模块作用。
 
 ---
 
@@ -198,7 +280,10 @@ $$
 3. **建立性能、个性化和通信成本的联合评估方案。**  
    不仅比较平均任务性能，还评估客户端尾部性能、个性化收益和通信成本，从联邦学习实际部署角度验证方法有效性。
 
-4. **在通用 NLP 主任务和教育文本补充任务上验证方法。**  
+4. **引入轻量稳健聚合和聚合偏差分析。**  
+   从聚合偏差、资源预算和异常更新降权三个角度补充方法解释，使论文不只停留在系统评测。
+
+5. **在通用 NLP 主任务和教育文本补充任务上验证方法。**  
    主实验使用通用英文文本分类和 NLI 任务保证可复现性，补充实验使用学生答案/教育文本分类任务体现应用价值。
 
 ---
@@ -236,9 +321,10 @@ $$
 
 - 客户端数量：10 或 20；
 - 每轮参与比例：20% 到 50%；
-- Non-IID 划分：Dirichlet 划分或按类别/任务划分；
-- 资源异构：low / medium / high 三类客户端；
+- Non-IID 划分：主方案采用 Dirichlet label distribution skew，候选 $\alpha \in \{0.1, 0.3, 0.5, 1.0\}$；补充方案采用按任务或类别划分；
+- 资源异构：low / medium / high 三类客户端，预算比例初步设为 $1:2:4$；
 - rank 范围：例如 $r \in \{2, 4, 8, 16\}$，具体根据显存和模型确定。
+- 资源预算映射：low 客户端优先使用 $r=2/4$，medium 使用 $r=4/8$，high 使用 $r=8/16$；动态策略再根据 loss 下降或更新相似度调整。
 
 ### 8.4 对比方法
 
@@ -248,8 +334,9 @@ $$
 2. Centralized LoRA：集中式训练上界，若数据许可证允许模拟集中训练；
 3. FedAvg-LoRA：统一 rank 的联邦 LoRA 基线；
 4. Personalized LoRA：固定 rank 的共享 + 私有 LoRA；
-5. FlexLoRA/FLoRA 相关思想复现或简化对比：根据代码可用性和实验周期决定；
-6. AdaFedLoRA-P：本文方法。
+5. Robust Personalized LoRA：共享 + 私有 LoRA + 稳健聚合；
+6. FlexLoRA/FLoRA/AFLoRA 相关思想复现或简化对比：根据代码可用性和实验周期决定；
+7. AdaFedLoRA-P：本文方法。
 
 ### 8.5 评价指标
 
@@ -276,6 +363,14 @@ $$
 
 - 至少 3 个随机种子；若算力不足，需在论文中明确说明限制。
 
+差异性实验：
+
+- Non-IID 强度变化：不同 Dirichlet $\alpha$。
+- 资源预算变化：low/mid/high 比例变化。
+- 聚合策略变化：FedAvg、裁剪聚合、相似度降权聚合。
+- 结构消融：仅共享、仅私有、共享 + 私有。
+- rank 策略消融：统一 rank、固定异构 rank、自适应 rank。
+
 ---
 
 ## 9. 预期结果表达方式
@@ -300,12 +395,13 @@ $$
 
 | 周期 | 任务 | 产出 |
 | --- | --- | --- |
-| 第 1-2 周 | 精读 LoRA、QLoRA、FLoRA、FlexLoRA、FSLoRA、AFLoRA、FedAvg | 文献笔记与 related work 初稿 |
+| 第 1-2 周 | 精读 LoRA、QLoRA、FLoRA、FlexLoRA、FSLoRA、AFLoRA、FedHL、FedEx-LoRA、EcoLoRA、FedAvg | 文献笔记与 related work 初稿 |
 | 第 2-3 周 | 跑通单客户端 LoRA 和 FedAvg-LoRA | baseline 代码 |
 | 第 4 周 | 实现 Non-IID 划分和资源异构模拟 | RQ1 初步实验 |
 | 第 5-6 周 | 实现共享 + 私有 LoRA | 个性化消融 |
 | 第 7 周 | 实现自适应 rank 分配 | rank 消融 |
-| 第 8-9 周 | 主实验：文本分类 + NLI | 主结果表 |
+| 第 8 周 | 实现稳健聚合和聚合偏差统计 | 稳健聚合消融 |
+| 第 9 周 | 主实验：文本分类 + NLI | 主结果表 |
 | 第 10 周 | 教育文本补充实验 | 补充结果 |
 | 第 11 周 | 论文初稿和图表整理 | 完整初稿 |
 | 第 12 周 | 导师反馈、修改和投稿准备 | 投稿版本 |
@@ -318,7 +414,7 @@ $$
    当前方案聚焦资源异构 + 个性化 FedLoRA，没有把隐私、多模态、复杂聚类都放入主线。请老师判断这个收缩是否适合 CCF C 期刊。
 
 2. **创新点是否足够集中？**  
-   目前创新点集中在共享/私有 LoRA 解耦、自适应 rank 分配和联合评估。请老师判断是否需要进一步加强理论分析或方法差异。
+   目前创新点集中在共享/私有 LoRA 解耦、自适应 rank 分配、稳健聚合和联合评估。请老师判断轻量理论分析是否足够，是否还需要更强的收敛或误差界说明。
 
 3. **与 FLoRA、FlexLoRA、AFLoRA 的差异是否清楚？**  
    这些工作与本文最接近。请老师指导本文应更强调个性化结构、资源分配策略，还是实验评测维度。
@@ -327,7 +423,7 @@ $$
    当前主实验选择通用英文文本分类 + NLI，教育学生答案分类作为补充。请老师判断是否符合论文定位。
 
 5. **期刊目标是否匹配？**  
-   当前目标是 CCF C 英文期刊。后续需要根据方法深度和实验完整性确定具体期刊。
+   当前候选排序为 Computer Networks、Journal of Network and Computer Applications、Neurocomputing。请老师判断是否先冲 Computer Networks，还是根据实验深度选择更稳妥期刊。
 
 ---
 
@@ -346,6 +442,12 @@ $$
 [^fslora]: Fang, W., Han, D.-J., Yuan, L., Hosseinalipour, S., & Brinton, C. G. Federated Sketching LoRA: A Flexible Framework for Heterogeneous Collaborative Fine-Tuning of LLMs. arXiv 2025. <https://arxiv.org/abs/2501.19389>
 
 [^aflora]: Zhou, Y., Pang, X., & Wang, Z. AFLoRA: Adaptive Federated Fine-Tuning of Large Language Models with Resource-Aware Low-Rank Adaption. arXiv 2025. <https://arxiv.org/abs/2505.24773>
+
+[^fedhl]: Peng, Z., Zeng, J., Li, B., Li, G., Chen, S., & Wang, T. FedHL: Federated Learning for Heterogeneous Low-Rank Adaptation via Unbiased Aggregation. arXiv 2025. <https://arxiv.org/abs/2505.18494>
+
+[^fedexlora]: Singhal, R., Ponkshe, K., & Vepakomma, P. FedEx-LoRA: Exact Aggregation for Federated and Efficient Fine-Tuning of Foundation Models. ACL/arXiv 2025. <https://arxiv.org/abs/2410.09432>
+
+[^ecolora]: Liu, H., Wen, R., Nair, S., Liu, J., Lou, W., Zhang, C., Yeoh, W., Vorobeychik, Y., & Zhang, N. EcoLoRA: Communication-Efficient Federated Fine-Tuning of Large Language Models. EMNLP 2025. <https://aclanthology.org/2025.emnlp-main.1046/>
 
 [^peftsurvey]: Ding, N., et al. Parameter-efficient fine-tuning of large-scale pre-trained language models. Nature Machine Intelligence, 2023. <https://www.nature.com/articles/s42256-023-00626-4>
 

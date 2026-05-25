@@ -14,6 +14,7 @@ $required = @(
     "docs/github-sync.md",
     "docs/direction-decision.md",
     "docs/dataset-strategy.md",
+    "docs/theory-and-method-plan.md",
     "docs/no-fabrication-protocol.md",
     "docs/roadmap.md",
     "docs/executable-plan-3months.md",
@@ -25,6 +26,7 @@ $required = @(
     "manuscript/outline.md",
     "manuscript/draft.md",
     "journal/ccf-targets.md",
+    "review/advisor-feedback-v1.md",
     "review/checklists.md"
 )
 
