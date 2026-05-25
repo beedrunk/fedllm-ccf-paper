@@ -84,6 +84,7 @@ powershell -ExecutionPolicy Bypass -File scripts/check-project.ps1
 - 不在未提交状态下进行大规模重构。
 - 不提交大型模型、checkpoint、原始数据或缓存。
 - 初期 GitHub 仓库应设置为 private。
+- 每次推送到 GitHub 后，最终回复必须包含改动简述，说明本次 push 包含哪些文件或功能变化、验证情况和远程分支。
 
 推荐分支：
 

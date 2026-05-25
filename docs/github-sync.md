@@ -109,6 +109,7 @@ git config --local https.proxy http://127.0.0.1:7897
 
 - 继续保留本仓库局部代理配置，除非网络环境改变。
 - 之后不再使用 GitHub Contents API 同步常规项目文件。
+- 每次推送到 GitHub 后，在最终回复中写明改动简述、验证结果和推送分支。
 - 如需检查代理配置，运行：
 
 ```powershell
