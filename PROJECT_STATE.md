@@ -48,14 +48,14 @@ D:\paper
 ## 当前未解决问题
 
 1. 本地 GPU/CUDA 尚未核验。当前环境找不到 `nvidia-smi`。
-2. GitHub private 仓库尚未创建。
+2. GitHub private 仓库已创建，但本地 `git push` 网络失败，初始文件通过 GitHub API 上传。详见 `docs/github-sync.md`。
 3. 目标 CCF C 英文期刊尚未核验。
 4. 核心文献库尚未建立。
 5. baseline 代码尚未开始。
 
 ## 下一步建议
 
-1. 创建 GitHub private 仓库并推送初始项目。
+1. 解决本地 git 与 GitHub 远程的正常同步问题。
 2. 建立第一版文献检索表。
 3. 核验 PyTorch CUDA 环境。
 4. 跑通单客户端 LoRA baseline。
@@ -77,4 +77,3 @@ AGENTS.md
 PROJECT_STATE.md
 docs/executable-plan-3months.md
 ```
-
