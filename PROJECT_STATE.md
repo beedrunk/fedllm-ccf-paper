@@ -45,6 +45,7 @@ D:\paper
 - `docs/open-questions.md`
 - `docs/environment-check.md`
 - `proposal/research-plan.md`
+- `proposal/opening-report.md`
 - `journal/ccf-targets.md`
 - 文献、实验、结果、论文草稿相关模板。
 
@@ -58,7 +59,7 @@ D:\paper
 
 ## 下一步建议
 
-1. 建立第一版文献检索表。
+1. 精读开题报告中列出的核心近两年 FedLoRA/FedLLM 文献，补充阅读笔记。
 2. 核验 PyTorch CUDA 环境。
 3. 跑通单客户端 LoRA baseline。
 4. 根据文本分类 + NLI 主线确定第一批公开数据集候选。

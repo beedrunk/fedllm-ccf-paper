@@ -17,5 +17,45 @@
 
 ## 检索记录
 
-暂无。后续所有检索必须按模板记录。
+### 2026-05-25：开题报告第一轮文献核验
+
+检索人：Codex
+
+数据库/来源：
+- arXiv
+- NeurIPS Proceedings
+- OpenReview
+- ACL Anthology
+- ICLR 页面
+- Google Research publication page
+- ScienceDirect
+- Springer/Elsevier/出版社页面
+
+检索式：
+- `LoRA Low-Rank Adaptation Large Language Models ICLR 2022`
+- `QLoRA Efficient Finetuning of Quantized LLMs NeurIPS 2023`
+- `FLoRA Federated Fine-Tuning Large Language Models heterogeneous low-rank adaptations`
+- `FlexLoRA Federated Fine-tuning of Large Language Models heterogeneous tasks client resources`
+- `FSLoRA Federated Sketching LoRA On-Device Collaborative Fine-Tuning`
+- `AFLoRA Adaptive Federated Fine-Tuning Large Language Models Resource-Aware Low-Rank Adaptation`
+- `FedIT federated instruction tuning large language models`
+- `FedAvg Communication-Efficient Learning of Deep Networks from Decentralized Data`
+- `GLUE benchmark ICLR 2019`
+- `MultiNLI NAACL 2018`
+- `SST Stanford Sentiment Treebank EMNLP 2013`
+- `SemEval 2013 Task 7 student response analysis`
+
+筛选标准：
+- 有 arXiv、OpenReview、NeurIPS、ACL、出版社或官方项目信息页面。
+- 与 PEFT、LoRA、联邦微调、资源异构、个性化或实验数据集直接相关。
+- 优先近两年 FedLLM/LoRA 联邦微调文献。
+
+排除标准：
+- 只来自博客且没有原始论文链接。
+- 不能核验标题、作者、年份或来源。
+- 与当前主线无直接关系。
+
+备注：
+- 当前只是开题阶段的第一轮核验；部分文献尚未精读全文，不能在论文正文中写成强结论。
+- 用户提供的 YOLO-Adapter 论文已核验为 Neurocomputing 2026 文章，可作为“导师写作套路和 PEFT 动机表达”的参考，不作为本文技术基线。
 
