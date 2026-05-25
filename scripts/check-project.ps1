@@ -5,7 +5,9 @@ param(
 $ErrorActionPreference = "Stop"
 
 $required = @(
+    ".gitattributes",
     "README.md",
+    "LICENSE",
     "AGENTS.md",
     "PROJECT_STATE.md",
     "docs/archival-policy.md",
