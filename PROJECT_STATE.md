@@ -52,6 +52,9 @@ D:\paper
 - `review/advisor-feedback-v1.md`
 - `docs/theory-and-method-plan.md`
 - `journal/ccf-targets.md`
+- `literature/reading-journal/README.md`
+- `literature/reading-journal/index.md`
+- `literature/reading-journal/001-fed-hello-heterogeneous-lora-allocation.md`
 - 文献、实验、结果、论文草稿相关模板。
 
 ## 当前未解决问题
@@ -64,10 +67,15 @@ D:\paper
 
 ## 下一步建议
 
-1. 精读 FLoRA、FlexLoRA、AFLoRA、FedHL、FedEx-LoRA、EcoLoRA，补充阅读笔记。
-2. 核验 PyTorch CUDA 环境。
-3. 跑通单客户端 LoRA baseline。
-4. 根据文本分类 + NLI 主线确定第一批公开数据集候选。
+1. 继续精读 Fed-HeLLo PDF，核验真实设备实验、资源能力划分和各实验表。
+2. 精读 FLoRA、FlexLoRA、AFLoRA、FedHL、FedEx-LoRA、EcoLoRA，补充阅读笔记。
+3. 核验 PyTorch CUDA 环境。
+4. 跑通单客户端 LoRA baseline。
+5. 根据文本分类 + NLI 主线确定第一批公开数据集候选。
+
+## 当前精读文献
+
+- 001：Fed-HeLLo。初读完成，阅读日志见 `literature/reading-journal/001-fed-hello-heterogeneous-lora-allocation.md`。
 
 ## 恢复提示
 

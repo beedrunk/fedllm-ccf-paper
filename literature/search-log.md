@@ -84,3 +84,31 @@
 备注：
 - 用户提到 `ECLoRA`，当前检索到最接近的是 `EcoLoRA`。在未进一步确认前，不把 `ECLoRA` 和 `EcoLoRA` 写成同一工作。
 - Computer Networks、JNCA、Neurocomputing 的最终 CCF 类别必须投稿前复核。
+
+### 2026-05-27：Fed-HeLLo 第一篇精读文献核验
+
+检索人：Codex
+
+数据库/来源：
+- arXiv
+- ar5iv HTML
+
+检索式：
+- `https://arxiv.org/abs/2506.12213`
+- `https://ar5iv.labs.arxiv.org/html/2506.12213v1`
+
+筛选标准：
+- 用户指定的第一篇阅读论文。
+- 与资源异构、联邦 LoRA、层分配和本项目差异化直接相关。
+
+核验结果：
+- 题名：Fed-HeLLo: Efficient Federated Foundation Model Fine-Tuning with Heterogeneous LoRA Allocation。
+- 作者：Zikai Zhang, Ping Liu, Jiahao Xu, Rui Hu。
+- arXiv ID：2506.12213。
+- arXiv comments：Accepted to TNNLS 2025。
+- 摘要明确包含 FIM-HLA、GD-HLA、RGD-HLA、五个数据集和 IID 到 extreme Non-IID 设置。
+
+备注：
+- 用户对“谁训练对应 LoRA layer”的理解是准确的简化表达。
+- “实验设备只有 A100、RTX3060 和手机”暂作为用户初始理解记录，不进入正式证据台账。
+- 该文献提示 AdaFedLoRA-P 不能只做 layer allocation，需要突出 shared-private personalization、adaptive rank/resource allocation、robust aggregation 和 unified evaluation。

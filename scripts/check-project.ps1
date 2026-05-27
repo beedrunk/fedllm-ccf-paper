@@ -21,6 +21,8 @@ $required = @(
     "docs/project-constraints.md",
     "literature/evidence-ledger.csv",
     "literature/search-log.md",
+    "literature/reading-journal/README.md",
+    "literature/reading-journal/index.md",
     "experiments/experiment-registry.csv",
     "experiments/run-log.md",
     "manuscript/outline.md",
